@@ -1,0 +1,129 @@
+/* RESET */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #a8e063, #56ab2f);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CONTAINER */
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    width: 380px;
+    max-width: 95%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* TITLES */
+h1 {
+    margin-bottom: 5px;
+    color: #2e7d32;
+    font-size: 26px;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 400;
+    color: #555;
+}
+
+/* INPUTS */
+input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* BUTTONS */
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #1b5e20;
+}
+
+/* RESULT BOX */
+.result {
+    margin-top: 20px;
+    padding: 14px;
+    background: #e8f5e9;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+/* IMAGE */
+.crop-img {
+    width: 220px;
+    max-width: 90%;
+    margin-top: 15px;
+    border-radius: 12px;
+}
+
+/* TIP BOX */
+.tip {
+    margin-top: 15px;
+    padding: 14px;
+    background: #fff3cd;
+    border-radius: 10px;
+    color: #856404;
+    font-size: 15px;
+}
+
+/* 📱 MOBILE OPTIMIZATION */
+@media (max-width: 600px) {
+
+    body {
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+
+    .container {
+        width: 92%;
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    h2 {
+        font-size: 16px;
+    }
+
+    input {
+        padding: 16px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 16px;
+        font-size: 18px;
+    }
+
+    .crop-img {
+        width: 170px;
+    }
+}

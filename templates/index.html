@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Agriculture Crop Predictor</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🌱 Smart Agriculture</h1>
+    <h2>Crop Prediction System</h2>
+
+    <form action="/predict" method="post">
+
+        <input type="text" name="n" placeholder="Nitrogen (N)" required>
+        <input type="text" name="p" placeholder="Phosphorus (P)" required>
+        <input type="text" name="k" placeholder="Potassium (K)" required>
+
+        <input type="text" id="temperature" name="temperature" placeholder="Temperature (°C)" required>
+        <input type="text" id="humidity" name="humidity" placeholder="Humidity (%)" required>
+
+        <input type="text" name="ph" placeholder="Soil pH" required>
+        <input type="text" id="rainfall" name="rainfall" placeholder="Rainfall (mm)" required>
+
+        <!-- 🌦 Auto Weather Button -->
+        <button type="button" onclick="getWeather()">🌦 Auto Fill Weather</button>
+
+        <button type="submit">Predict Crop</button>
+    </form>
+
+    {% if prediction_text %}
+        <div class="result">
+            {{ prediction_text }}
+        </div>
+    {% endif %}
+
+    {% if crop_image %}
+        <img src="{{ url_for('static', filename='images/' + crop_image) }}"
+             class="crop-img">
+    {% endif %}
+
+    {% if tip %}
+        <div class="tip">
+            💡 {{ tip }}
+        </div>
+    {% endif %}
+
+</div>
+
+<script>
+function getWeather() {
+
+    if (!navigator.geolocation) {
+        alert("Geolocation not supported");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const apiKey = "3e39bdf9d805088b5b936081a307ec60";
+
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+
+            if (!data || !data.main) {
+                return;
+            }
+
+            // 🌡 Fill temperature & humidity
+            document.getElementById("temperature").value = data.main.temp;
+            document.getElementById("humidity").value = data.main.humidity;
+
+            // 🌧 Rainfall calculation
+            let rainfall = 0;
+
+            // Use real rain data if available
+            if (data.rain && data.rain["1h"]) {
+                rainfall = data.rain["1h"];
+            } else if (data.rain && data.rain["3h"]) {
+                rainfall = data.rain["3h"] / 3;
+            } else {
+                // Estimate rainfall using humidity
+                const humidity = data.main.humidity;
+
+                if (humidity > 85) rainfall = 20;
+                else if (humidity > 70) rainfall = 10;
+                else if (humidity > 50) rainfall = 5;
+                else rainfall = 0;
+            }
+
+            document.getElementById("rainfall").value = rainfall;
+
+        })
+        .catch(error => {
+            console.log("Weather fetch error:", error);
+        });
+
+    }, function() {
+        alert("Location access denied.");
+    });
+}
+</script>
+
+</body>
+</html>
